@@ -1,0 +1,13 @@
+# متغيرات البيئة المطلوبة للواجهة الأمامية
+
+## في إعدادات Netlify - Environment Variables:
+
+VITE_API_URL=https://mygame25bita-7eqw.onrender.com
+VITE_WS_URL=wss://mygame25bita-7eqw.onrender.com
+
+## أو في ملف .env للتطوير المحلي:
+
+VITE_API_URL=https://mygame25bita-7eqw.onrender.com
+VITE_WS_URL=wss://mygame25bita-7eqw.onrender.com
+
+هذه المتغيرات تجعل الواجهة تتصل بـ Render backend بدلاً من الخادم المحلي.

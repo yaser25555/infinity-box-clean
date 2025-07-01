@@ -1,0 +1,74 @@
+10:24:24 AM: Netlify Build                                                 
+10:24:24 AM: ────────────────────────────────────────────────────────────────
+10:24:24 AM: ​
+10:24:24 AM: ❯ Version
+10:24:24 AM:   @netlify/build 33.5.0
+10:24:24 AM: ​
+10:24:24 AM: ❯ Flags
+10:24:24 AM:   accountId: 68445c8836bd7f4c0a81c10a
+10:24:24 AM:   baseRelDir: true
+10:24:24 AM:   buildId: 68638d0ff0e1e600088a7be7
+10:24:24 AM:   deployId: 68638d0ff0e1e600088a7be9
+10:24:24 AM: ​
+10:24:24 AM: ❯ Current directory
+10:24:24 AM:   /opt/build/repo
+10:24:24 AM: ​
+10:24:24 AM: ❯ Config file
+10:24:24 AM:   /opt/build/repo/netlify.toml
+10:24:24 AM: ​
+10:24:24 AM: ❯ Context
+10:24:24 AM:   production
+10:24:24 AM: ​
+10:24:24 AM: ❯ Installing extensions
+10:24:24 AM:    - neon
+10:24:26 AM: ​
+10:24:26 AM: ❯ Loading extensions
+10:24:26 AM:    - neon
+10:24:27 AM: ​
+10:24:27 AM: build.command from netlify.toml                               
+10:24:27 AM: ────────────────────────────────────────────────────────────────
+10:24:27 AM: ​
+10:24:27 AM: $ npm run build
+10:24:27 AM: > infinity-box@1.0.0 build
+10:24:27 AM: > vite build
+10:24:27 AM: failed to load config from /opt/build/repo/vite.config.ts
+10:24:27 AM: error during build:
+10:24:27 AM: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@vitejs/plugin-react' imported from /opt/build/repo/vite.config.ts.timestamp-1751354667713-684debf019cd2.mjs
+10:24:27 AM:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+10:24:27 AM:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+10:24:27 AM:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+10:24:27 AM:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:642:12)
+10:24:27 AM:     at #cachedDefaultResolve (node:internal/modules/esm/loader:591:25)
+10:24:27 AM:     at ModuleLoader.resolve (node:internal/modules/esm/loader:574:38)
+10:24:27 AM:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:236:38)
+10:24:27 AM:     at ModuleJob._link (node:internal/modules/esm/module_job:130:49)
+10:24:28 AM: Failed during stage 'building site': Build script returned non-zero exit code: 2 (https://ntl.fyi/exit-code-2)
+10:24:28 AM: ​
+10:24:28 AM: "build.command" failed                                        
+10:24:28 AM: ────────────────────────────────────────────────────────────────
+10:24:28 AM: ​
+10:24:28 AM:   Error message
+10:24:28 AM:   Command failed with exit code 1: npm run build (https://ntl.fyi/exit-code-1)
+10:24:28 AM: ​
+10:24:28 AM:   Error location
+10:24:28 AM:   In build.command from netlify.toml:
+10:24:28 AM:   npm run build
+10:24:28 AM: ​
+10:24:28 AM:   Resolved config
+10:24:28 AM:   build:
+10:24:28 AM:     command: npm run build
+10:24:28 AM:     commandOrigin: config
+10:24:28 AM:     environment:
+10:24:28 AM:       - VITE_API_URL
+10:24:28 AM:       - VITE_WS_URL
+10:24:28 AM:       - NODE_VERSION
+10:24:28 AM:     publish: /opt/build/repo/dist
+10:24:28 AM:     publishOrigin: config
+10:24:28 AM:   redirects:
+10:24:28 AM:     - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+10:24:28 AM: Build failed due to a user error: Build script returned non-zero exit code: 2
+10:24:28 AM: Failing build: Failed to build site
+10:24:29 AM: Finished processing build request in 28.079s

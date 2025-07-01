@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>لوحة تحكم المسؤول - Voice Boom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #1a1a1a; /* Darker background */
+      color: #ffffff;
+      padding: 40px;
+      text-align: center;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background-color: #2d2d2d; /* Slightly lighter container */
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+      border: 1px solid #444;
+    }
+    h2, h3 {
+        color: #6366f1; /* Indigo accent for headers */
+    }
+    input, button, select {
+      padding: 12px 15px;
+      margin: 10px 0;
+      width: calc(100% - 30px);
+      border: 1px solid #666;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+    input, select {
+      background-color: #3a3a3a;
+      color: #ffffff;
+    }
+    button {
+      background-color: #6366f1;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #4f46e5;
+      transform: translateY(-2px);
+    }
+    .login-form {
+      background-color: #333333;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .admin-panel-sections {
+      margin: 20px 0;
+    }
+    .admin-panel-sections button {
+      margin: 5px;
+      padding: 10px 20px;
+    }
+    .admin-panel-sections button.active {
+      background-color: #4f46e5;
+    }
+    .section-content {
+      background-color: #333333;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .field {
+      margin: 15px 0;
+    }
+    label {
+      color: #ffffff;
+      display: block;
+      margin-bottom: 5px;
+    }
+    #loginMessage {
+      color: #f43f5e;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+    }
+    .hidden {
+      display: none;
+    }
+    .field {
+      text-align: right;
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #aaa;
+    }
+    .hidden {
+      display: none;
+    }
+    .admin-panel-sections {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+      border-bottom: 2px solid #333;
+      padding-bottom: 20px;
+    }
+    .admin-panel-sections button {
+      width: auto;
+      padding: 10px 25px;
+      font-size: 1.1em;
+      background-color: transparent;
+      border: 2px solid #4CAF50;
+      color: #4CAF50;
+    }
+    .admin-panel-sections button.active {
+        background-color: #4CAF50;
+        color: white;
+    }
+    .section-content {
+      margin-top: 30px;
+      padding-top: 20px;
+    }
+    #editUserForm, #gameManagementSection {
+        background-color: #2a2a2a;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>لوحة تحكم المسؤول</h2>
+
+    <!-- Admin Login Form -->
+    <form id="adminLoginForm" class="login-form">
+      <h3>تسجيل دخول المسؤول</h3>
+      <div class="field">
+        <label for="adminUsername">اسم المستخدم:</label>
+        <input type="text" id="adminUsername" placeholder="اسم المستخدم" required autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="adminPassword">كلمة المرور:</label>
+        <input type="password" id="adminPassword" placeholder="كلمة المرور" required autocomplete="current-password">
+      </div>
+      <button type="submit" id="adminLoginBtn">تسجيل الدخول</button>
+      <p id="loginMessage" style="color: red;"></p>
+    </form>
+
+    <!-- Admin Panel Content (initially hidden) -->
+    <div id="adminPanel" class="hidden">
+      <div class="admin-panel-sections">
+        <button id="showGameManagement">إدارة اللعبة</button>
+        <button id="showUserManagement">إدارة المستخدمين</button>
+      </div>
+
+      <!-- Game Management Section -->
+      <div id="gameManagementSection" class="section-content hidden">
+        <h3>إعدادات اللعبة</h3>
+        <div class="field">
+            <label for="numBoxesInput">عدد الصناديق في الجولة:</label>
+            <input type="number" id="numBoxesInput" min="5" max="100">
+        </div>
+        <div class="field">
+            <label for="winRatioInput">نسبة الفوز (من 0.1 إلى 0.9):</label>
+            <input type="number" id="winRatioInput" step="0.1" min="0.1" max="0.9">
+        </div>
+        <button id="saveGameSettingsBtn">حفظ إعدادات اللعبة</button>
+      </div>
+
+      <!-- User Management Section -->
+      <div id="userManagementSection" class="section-content hidden">
+        <h3>إدارة المستخدمين</h3>
+        <input type="text" id="searchUsername" placeholder="أدخل اسم المستخدم للبحث">
+        <button id="fetchUserDataBtn">🔍 عرض بيانات المستخدم</button>
+
+        <form id="editUserForm" class="hidden">
+          <input type="hidden" id="currentUsername">
+          <div class="field">
+            <label for="editUsername">اسم المستخدم:</label>
+            <input type="text" id="editUsername" placeholder="اسم المستخدم" autocomplete="username">
+          </div>
+          <div class="field">
+            <label for="editPassword">كلمة المرور الجديدة (اتركه فارغًا لعدم التغيير):</label>
+            <input type="password" id="editPassword" placeholder="كلمة مرور جديدة" autocomplete="new-password">
+          </div>
+          <div class="field">
+            <label for="manageCoins">الرصيد الحالي:</label>
+            <input type="number" id="manageCoins" placeholder="الرصيد">
+          </div>
+          <button type="submit" id="updateUserBtn">تحديث بيانات المستخدم</button>
+        </form>
+          <hr style="margin: 20px 0; border-color: #444;">
+          <div class="field">
+            <label for="adminRoleUsername">تعيين كمسؤول:</label>
+            <input type="text" id="adminRoleUsername" readonly>
+          </div>
+          <button id="assignAdminRoleBtn">تعيين مشرف</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- مثال: قائمة المستخدمين المتصلين بالصوت -->
+    <ul id="voiceUsersList"></ul>
+
+  </div>
+
+  <script>
+    const BACKEND_URL = 'https://mygame25bita.onrender.com';
+
+    // دوال مساعدة
+    function showLoginForm() {
+      document.getElementById('adminLoginForm').classList.remove('hidden');
+      document.getElementById('adminPanel').classList.add('hidden');
+    }
+
+    function showAdminPanel() {
+      document.getElementById('adminLoginForm').classList.add('hidden');
+      document.getElementById('adminPanel').classList.remove('hidden');
+      document.getElementById('showGameManagement').click();
+    }
+
+    function showError(message) {
+      const loginMessage = document.getElementById('loginMessage');
+      loginMessage.textContent = message;
+      loginMessage.style.display = 'block';
+      setTimeout(() => {
+        loginMessage.style.display = 'none';
+      }, 5000);
+    }
+
+    // إضافة مستمعي الأحداث
+    document.addEventListener('DOMContentLoaded', () => {
+      // التحقق من حالة الدخول
+      checkLoginStatus();
+      
+      // معالجة زر تسجيل الدخول
+      document.getElementById('adminLoginBtn').addEventListener('click', async (e) => {
+        e.preventDefault();
+        await handleAdminLogin();
+      });
+
+      // معالجة أزرار لوحة التحكم
+      const gameBtn = document.getElementById('showGameManagement');
+      const userBtn = document.getElementById('showUserManagement');
+      const gameSection = document.getElementById('gameManagementSection');
+      const userSection = document.getElementById('userManagementSection');
+
+      gameBtn.addEventListener('click', () => {
+        gameSection.classList.remove('hidden');
+        userSection.classList.add('hidden');
+        gameBtn.classList.add('active');
+        userBtn.classList.remove('active');
+        loadGameSettings();
+      });
+
+      userBtn.addEventListener('click', () => {
+        userSection.classList.remove('hidden');
+        gameSection.classList.add('hidden');
+        userBtn.classList.add('active');
+        gameBtn.classList.remove('active');
+      });
+
+      // معالجة أزرار الإجراءات
+      document.getElementById('saveGameSettingsBtn').addEventListener('click', saveGameSettings);
+      document.getElementById('fetchUserDataBtn').addEventListener('click', fetchUserData);
+      document.getElementById('updateUserBtn').addEventListener('click', updateUserData);
+      document.getElementById('assignAdminRoleBtn').addEventListener('click', assignAdminRole);
+    });
+
+    // الدوال الرئيسية
+    async function checkLoginStatus() {
+      const token = localStorage.getItem('adminToken');
+      
+      if (token) {
+        try {
+          const response = await fetch(`${BACKEND_URL}/api/users/me`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          });
+
+          if (response.ok) {
+            const user = await response.json();
+            if (user.isAdmin) {
+              showAdminPanel();
+            } else {
+              localStorage.removeItem('adminToken');
+            }
+          } else if (response.status === 401) {
+            localStorage.removeItem('adminToken');
+            showError('الجلسة منتهية الصلاحية. يرجى تسجيل الدخول مرة أخرى.');
+          } else {
+            localStorage.removeItem('adminToken');
+            showError('حدث خطأ أثناء التحقق من الدخول.');
+          }
+        } catch (error) {
+          console.error('خطأ في التحقق من الدخول:', error);
+          localStorage.removeItem('adminToken');
+          showError('لا يمكن الاتصال بخادم التطبيق. يرجى التأكد من الاتصال بالإنترنت.');
+        }
+      } else {
+        // If no token, show login form
+        showLoginForm();
+      }
+    }
+
+    async function handleAdminLogin() {
+      const username = document.getElementById('adminUsername').value;
+      const password = document.getElementById('adminPassword').value;
+      const loginMessage = document.getElementById('loginMessage');
+
+      if (!username || !password) {
+        loginMessage.textContent = 'يرجى تعبئة جميع الحقول.';
+        return;
+      }
+
+      try {
+        const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username,
+            password,
+            isAdmin: true
+          })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem('adminToken', data.token);
+          document.getElementById('adminLoginForm').classList.add('hidden');
+          const adminPanel = document.getElementById('adminPanel');
+          adminPanel.classList.remove('hidden');
+          document.getElementById('showGameManagement').click();
+        } else if (response.status === 401) {
+          loginMessage.textContent = data.message || 'اسم المستخدم أو كلمة المرور غير صحيحة.';
+        } else {
+          loginMessage.textContent = 'حدث خطأ أثناء تسجيل الدخول.';
+        }
+      } catch (error) {
+        console.error('خطأ في تسجيل الدخول:', error);
+        loginMessage.textContent = 'لا يمكن الاتصال بخادم التطبيق. يرجى التأكد من الاتصال بالإنترنت.';
+      }
+    }
+
+    async function fetchUserData() {
+      const username = document.getElementById('searchUsername').value;
+      if (!username) return alert('يرجى إدخال اسم المستخدم');
+
+      const token = localStorage.getItem('adminToken');
+      if (!token) {
+        alert('لا يوجد توكن مسؤول. يرجى تسجيل الدخول أولاً.');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${BACKEND_URL}/api/users/${username}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.message || 'فشل في جلب البيانات');
+
+        document.getElementById('editUserForm').classList.remove('hidden');
+        document.getElementById('currentUsername').value = data.username || '';
+        document.getElementById('editUsername').value = data.username || '';
+        document.getElementById('manageCoins').value = data.score !== undefined ? data.score : 0;
+        document.getElementById('adminRoleUsername').value = data.username || '';
+        document.getElementById('editPassword').value = '';
+      } catch (err) {
+        alert('⚠️ ' + err.message);
+      }
+    }
+
+    async function assignAdminRole() {
+      const username = document.getElementById('adminRoleUsername').value;
+      if (!username) return alert('يرجى اختيار مستخدم أولاً');
+
+      const token = localStorage.getItem('adminToken');
+      if (!token) {
+        alert('لا يوجد توكن مسؤول. يرجى تسجيل الدخول أولاً.');
+        return;
+      }
+
+      try {
+        const response = await fetch(`${BACKEND_URL}/api/users/set-admin`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          alert('تم تعيين المستخدم كمسؤول بنجاح!');
+        } else {
+          throw new Error(data.message || 'فشل في تعيين المستخدم كمسؤول');
+        }
+      } catch (error) {
+        alert('⚠️ ' + error.message);
+      }
+    }
+
+    async function updateUserData() {
+      const currentUsername = document.getElementById('searchUsername').value.trim();
+      const newUsername = document.getElementById('editUsername').value.trim();
+      const newPassword = document.getElementById('editPassword').value.trim();
+      const newCoins = document.getElementById('manageCoins').value.trim();
+
+      if (!currentUsername) {
+        alert('يرجى البحث عن المستخدم أولاً');
+        return;
+      }
+
+      const adminToken = localStorage.getItem('adminToken');
+      if (!adminToken) {
+        alert('لا يوجد توكن مسؤول. يرجى تسجيل الدخول أولاً.');
+        return;
+      }
+
+      const body = {
+        currentUsername,
+      };
+
+      if (newUsername) body.newUsername = newUsername;
+      if (newPassword) body.newPassword = newPassword;
+      if (newCoins !== '') body.newScore = parseInt(newCoins, 10);
+
+      try {
+        const response = await fetch(`${BACKEND_URL}/api/users/update-user`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${adminToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`خطأ في الخادم: ${errorText}`);
+        }
+
+        const data = await response.json();
+        if (response.ok) {
+          alert('تم تحديث بيانات المستخدم بنجاح!');
+        } else {
+          throw new Error(data.message || 'فشل في تحديث بيانات المستخدم');
+        }
+      } catch (error) {
+        alert('⚠️ ' + error.message);
+      }
+    }
+
+    async function loadGameSettings() {
+        const token = localStorage.getItem('adminToken');
+        try {
+            const response = await fetch(`${BACKEND_URL}/api/users/settings`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+              const errorText = await response.text();
+              throw new Error(`خطأ في الخادم: ${errorText}`);
+            }
+
+            const settings = await response.json();
+            document.getElementById('numBoxesInput').value = settings.gameSettings.numBoxes || 20;
+            document.getElementById('winRatioInput').value = settings.gameSettings.winRatio || 0.5;
+        } catch (error) {
+            console.error('خطأ في تحميل إعدادات اللعبة:', error);
+            alert('خطأ في تحميل إعدادات اللعبة: ' + error.message);
+        }
+    }
+
+    async function saveGameSettings() {
+        const numBoxes = document.getElementById('numBoxesInput').value;
+        const winRatio = document.getElementById('winRatioInput').value;
+
+        if (!numBoxes || !winRatio) {
+            alert('يرجى تعبئة جميع الحقول.');
+            return;
+        }
+
+        const token = localStorage.getItem('adminToken');
+        if (!token) {
+            alert('لا يوجد توكن مسؤول. يرجى تسجيل الدخول أولاً.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${BACKEND_URL}/api/users/settings`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    gameSettings: {
+                        numBoxes: parseInt(numBoxes, 10),
+                        winRatio: parseFloat(winRatio)
+                    }
+                })
+            });
+
+            if (!response.ok) {
+              const errorText = await response.text();
+              throw new Error(`خطأ في الخادم: ${errorText}`);
+            }
+
+            if (response.ok) {
+                alert('تم حفظ إعدادات اللعبة بنجاح!');
+            } else {
+                throw new Error('فشل في حفظ إعدادات اللعبة');
+            }
+        } catch (error) {
+            console.error('خطأ في حفظ إعدادات اللعبة:', error);
+            alert('خطأ في حفظ إعدادات اللعبة: ' + error.message);
+        }
+    }
+
+    function renderVoiceUsers(users) {
+      const ul = document.getElementById('voiceUsersList');
+      ul.innerHTML = '';
+      users.forEach(username => {
+        const li = document.createElement('li');
+        li.textContent = username + ' ';
+        const muteBtn = document.createElement('button');
+        muteBtn.textContent = 'كتم';
+        muteBtn.onclick = function() { muteUser(username); };
+        li.appendChild(muteBtn);
+        ul.appendChild(li);
+      });
+    }
+
+    function muteUser(username) {
+      // تأكد من وجود ws أو getWebSocket
+      (window.getWebSocket ? getWebSocket() : ws).send(JSON.stringify({
+        type: 'mute_user',
+        targetUsername: username
+      }));
+      alert('تم إرسال أمر الكتم إلى ' + username);
+    }
+  </script>
+</body>
+</html>

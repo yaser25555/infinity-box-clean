@@ -1,0 +1,21 @@
+[build]
+  command = "node build.js"
+  publish = "dist/public"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NODE_ENV = "production"
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://mygame25bita-7eqw.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[functions]
+  node_bundler = "esbuild"
